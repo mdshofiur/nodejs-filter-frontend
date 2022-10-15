@@ -16,7 +16,7 @@ function App() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
-	useEffect(() => {
+  useEffect(() => {
     const getAllMovies = async () => {
       try {
         const url = `${base_url}?page=${page}&sort=${sort.sort},${
@@ -24,7 +24,6 @@ function App() {
         }&genre=${filterGenre.toString()}&search=${search}`;
         const { data } = await axios.get(url);
         setObj(data);
-        console.log(data);
       } catch (err) {
         console.log(err);
       }
@@ -33,15 +32,12 @@ function App() {
     getAllMovies();
   }, [sort, filterGenre, page, search]);
 
+  // const array1 = ["1", "2", "3", "4", "5", "6"];
+  // const array2 = ["7", "8", "9", "10", "11", "12"];
 
-  console.log("obj", obj);
+  // const concatArray = array1.concat.(array2);
 
-  // const hello = ["sddsf", "sddsf", "sddsf", "sddsf", "sddsf", "sddsf"];
-  // const hello2 = ["sddsf", "sddsf", "sddsf", "sddsf", "sddsf", "sddsf"];
-
-  // const master = hello1.concat.(hello2);
-
-  // console.log(master)
+  // console.log(concatArray);
 
   // axios
   // .get(baseUrl, {
@@ -55,6 +51,7 @@ function App() {
   // .then((res) => {
   //   setObj(res.data);
   // });
+
   return (
     <div className="wrapper">
       <div className="container">
@@ -78,9 +75,6 @@ function App() {
               filterGenre={filterGenre}
               genres={obj.genre ? obj.genre : []}
               setFilterGenre={(genre) => setFilterGenre(genre)}
-              // filterGenre={filterGenre}
-              // genres={obj.genres ? obj.genres : []}
-              // setFilterGenre={(genre) => setFilterGenre(genre)}
             />
           </div>
         </div>
