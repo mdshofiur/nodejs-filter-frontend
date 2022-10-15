@@ -7,60 +7,86 @@ import Pagination from "./components/Pagination";
 import Search from "./components/Search";
 import "./App.css";
 
-const base_url = process.env.REACT_APP_API_URL;
+const base_url = process.env.REACT_APP_BASE_URL;
 
 function App() {
-	const [obj, setObj] = useState({});
-	const [sort, setSort] = useState({ sort: "rating", order: "desc" });
-	const [filterGenre, setFilterGenre] = useState([]);
-	const [page, setPage] = useState(1);
-	const [search, setSearch] = useState("");
+  const [obj, setObj] = useState({});
+  const [sort, setSort] = useState({ sort: "rating", order: "desc" });
+  const [filterGenre, setFilterGenre] = useState([]);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
 
 	useEffect(() => {
-		const getAllMovies = async () => {
-			try {
-				const url = `${base_url}?page=${page}&sort=${sort.sort},${
-					sort.order
-				}&genre=${filterGenre.toString()}&search=${search}`;
-				const { data } = await axios.get(url);
-				setObj(data);
-			} catch (err) {
-				console.log(err);
-			}
-		};
+    const getAllMovies = async () => {
+      try {
+        const url = `${base_url}?page=${page}&sort=${sort.sort},${
+          sort.order
+        }&genre=${filterGenre.toString()}&search=${search}`;
+        const { data } = await axios.get(url);
+        setObj(data);
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-		getAllMovies();
-	}, [sort, filterGenre, page, search]);
+    getAllMovies();
+  }, [sort, filterGenre, page, search]);
 
-	return (
-		<div className="wrapper">
-			<div className="container">
-				<div className="head">
-					<img src="./images/logo.png" alt="logo" className="logo" />
-					<Search setSearch={(search) => setSearch(search)} />
-				</div>
-				<div className="body">
-					<div className="table_container">
-						<Table movies={obj.movies ? obj.movies : []} />
-						<Pagination
-							page={page}
-							limit={obj.limit ? obj.limit : 0}
-							total={obj.total ? obj.total : 0}
-							setPage={(page) => setPage(page)}
-						/>
-					</div>
-					<div className="filter_container">
-						<Sort sort={sort} setSort={(sort) => setSort(sort)} />
-						<Genre
-							filterGenre={filterGenre}
-							genres={obj.genres ? obj.genres : []}
-							setFilterGenre={(genre) => setFilterGenre(genre)}
-						/>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+
+  console.log("obj", obj);
+
+  // const hello = ["sddsf", "sddsf", "sddsf", "sddsf", "sddsf", "sddsf"];
+  // const hello2 = ["sddsf", "sddsf", "sddsf", "sddsf", "sddsf", "sddsf"];
+
+  // const master = hello1.concat.(hello2);
+
+  // console.log(master)
+
+  // axios
+  // .get(baseUrl, {
+  //   params: {
+  //     ...sort,
+  //     genres: filterGenre.join(","),
+  //     page: page,
+  //     search: search,
+  //   },
+  // })
+  // .then((res) => {
+  //   setObj(res.data);
+  // });
+  return (
+    <div className="wrapper">
+      <div className="container">
+        <div className="head">
+          <img src="./images/logo.png" alt="logo" className="logo" />
+          <Search setSearch={(search) => setSearch(search)} />
+        </div>
+        <div className="body">
+          <div className="table_container">
+            <Table movies={obj?.movies ? obj.movies : []} />
+            <Pagination
+              page={page}
+              limit={obj.limit ? obj.limit : 0}
+              total={obj.total ? obj.total : 0}
+              setPage={(page) => setPage(page)}
+            />
+          </div>
+          <div className="filter_container">
+            <Sort sort={sort} setSort={(sort) => setSort(sort)} />
+            <Genre
+              filterGenre={filterGenre}
+              genres={obj.genre ? obj.genre : []}
+              setFilterGenre={(genre) => setFilterGenre(genre)}
+              // filterGenre={filterGenre}
+              // genres={obj.genres ? obj.genres : []}
+              // setFilterGenre={(genre) => setFilterGenre(genre)}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default App;
